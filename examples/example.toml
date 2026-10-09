@@ -1,0 +1,56 @@
+# Example plan for a fictional saver. All numbers are made up.
+# Run:  python3 run.py examples/example.toml --out results
+
+[goal]
+amount = 1_000_000          # target, in today's dollars when you read the "today's dollars" columns
+horizon_years = 15
+inflation = 0.025
+
+[income]
+monthly_contribution = 3_200
+contribution_noise = 0.10   # month-to-month variation
+annual_raise = 0.0          # flat in nominal dollars (conservative)
+gap_start_prob = 0.008      # monthly chance that income stops (contractor dry spell)
+gap_months = [2, 6]         # length range of a gap
+
+[[liabilities]]             # fixed payments paid from income, but still due during an income gap
+name = "Property instalments"
+monthly = 1_200
+months = 36
+
+[[lump_sums]]               # one-off inflow in a foreign currency (e.g. proceeds from selling assets abroad)
+month = 12
+amount_foreign = 45_000
+amount_sd = 0.07            # uncertainty of the amount
+fx_start = 0.92             # foreign units per USD today (EUR-like)
+fx_vol = 0.14
+fx_drift = 0.02             # yearly depreciation of the foreign currency vs USD
+conversion_cost = 0.015
+
+[portfolio]
+reserve = 20_000            # cash bucket (emergency fund), refilled first, drawn first
+reserve_step_month = 12     # the reserve target steps up when the lump sum arrives
+reserve_step_amount = 10_000
+no_sell_until_month = 12    # before this month new money does the rebalancing; afterwards one rebalance a year
+recommended = "Balanced 80/20"
+
+[portfolio.holdings]        # current dollars by asset class
+global_equity = 45_000
+gold = 6_000
+cash = 25_000
+
+[speculative]               # fixed block, never rebalanced (e.g. crypto): start value and regular top-ups
+start = 8_000
+topup = 500
+topup_every_months = 3
+
+[market]
+calibration = "default"     # "yfinance" re-estimates correlations from live ETF history (needs internet)
+
+[simulation]
+paths = 10_000
+seed = 1
+
+# Optional: override any forecast. return = compound annual return before fees, vol = annual volatility, ter = annual fee.
+# [assumptions.global_equity]
+# return = 0.06
