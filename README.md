@@ -1,5 +1,7 @@
 # Portfolio Goal Planner
 
+[![tests](https://github.com/alexboscolo954/portfolio-goal-planner/actions/workflows/tests.yml/badge.svg)](https://github.com/alexboscolo954/portfolio-goal-planner/actions/workflows/tests.yml)
+
 A small, config-driven tool that answers one question: **given what I own, what I save and what might go wrong, what are the odds of reaching a savings goal, and how soon?**
 
 It combines a Monte Carlo simulation of the whole plan (contributions, income gaps, fixed liabilities, one-off foreign-currency inflows, an emergency-cash bucket and a speculative sleeve) with a classic mean-variance analysis, and generates charts and a markdown report from the results.
